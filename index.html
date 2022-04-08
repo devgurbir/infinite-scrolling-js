@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .wrapper {
+        border: 2px solid hotpink;
+        width: 400px;
+        height: 250px;
+        overflow: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrapper"></div>
+
+    <script>
+      const wrapperDiv = document.querySelector(".wrapper");
+      let start = 1;
+      //   document.addEventListener("click", () => addTwentyFive());
+      let debounced_checkForElementEnd = debounced(checkForElementEnd, 300);
+
+      wrapperDiv.addEventListener("scroll", debounced_checkForElementEnd);
+
+      addTwentyFive();
+
+      function debounced(fn, delay) {
+        let id;
+        return function () {
+          if (id) {
+            clearTimeout(id);
+          }
+
+          id = setTimeout(() => {
+            fn();
+          }, delay);
+        };
+      }
+
+      function checkForElementEnd() {
+        console.log(wrapperDiv.scrollTop);
+        if (
+          wrapperDiv.scrollHeight - wrapperDiv.scrollTop <=
+          wrapperDiv.clientHeight
+        ) {
+          addTwentyFive();
+        }
+      }
+
+      function addTwentyFive() {
+        for (let i = start; i < start + 25; i++) {
+          const divEl = document.createElement("div");
+          divEl.textContent = `masai student ${i}`;
+          wrapperDiv.append(divEl);
+        }
+        start = start + 25;
+      }
+    </script>
+  </body>
+</html>
